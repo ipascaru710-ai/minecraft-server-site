@@ -1,58 +1,206 @@
 <!DOCTYPE html>
 <html lang="ro">
 <head>
-  <meta charset="UTF-8">
-  <title>My Modded Minecraft Server</title>
-  <style>
-    body{font-family:Arial;background:#0f172a;color:white;text-align:center;margin:0}
-    header{background:#1e293b;padding:30px}
-    h1{margin:0}
-    .container{padding:40px}
-    .card{background:#1e293b;padding:20px;margin:20px auto;border-radius:12px;max-width:500px}
-    button{background:#22c55e;border:none;padding:15px 25px;border-radius:10px;font-size:16px;cursor:pointer}
-    button:hover{background:#16a34a}
-  </style>
+<meta charset="UTF-8">
+<title>Minecraft Server</title>
+
+<style>
+
+body{
+background:linear-gradient(180deg,#0f172a,#020617);
+color:white;
+font-family:Arial;
+text-align:center;
+margin:0;
+}
+
+header{
+background:#1e293b;
+padding:60px;
+box-shadow:0 0 30px rgba(0,0,0,0.5);
+}
+
+h1{
+font-size:48px;
+margin:0;
+}
+
+.container{
+padding:40px;
+}
+
+.card{
+background:#1e293b;
+padding:30px;
+margin:25px auto;
+border-radius:15px;
+max-width:520px;
+box-shadow:0 0 25px rgba(0,0,0,0.6);
+}
+
+button{
+background:#22c55e;
+border:none;
+padding:15px 30px;
+border-radius:10px;
+font-size:16px;
+cursor:pointer;
+color:white;
+transition:0.2s;
+}
+
+button:hover{
+background:#16a34a;
+transform:scale(1.05);
+}
+
+.ip{
+font-size:24px;
+margin:10px;
+}
+
+.status{
+font-size:20px;
+margin-top:15px;
+}
+
+.players{
+font-size:18px;
+margin-top:10px;
+}
+
+.footer{
+margin-top:40px;
+color:#9ca3af;
+font-size:14px;
+}
+
+</style>
+
+<script>
+
+let serverIP = "play.myserver.net";
+
+function copyIP(){
+navigator.clipboard.writeText(serverIP);
+alert("IP copiat!");
+}
+
+async function checkServer(){
+
+try{
+
+let res = await fetch("https://api.mcsrvstat.us/2/" + serverIP);
+let data = await res.json();
+
+if(data.online){
+
+document.getElementById("status").innerHTML =
+"🟢 Server Online";
+
+document.getElementById("players").innerHTML =
+"👥 Jucători: " + data.players.online + " / " + data.players.max;
+
+}else{
+
+document.getElementById("status").innerHTML =
+"🔴 Server Offline";
+
+document.getElementById("players").innerHTML = "";
+
+}
+
+}catch{
+
+document.getElementById("status").innerHTML =
+"⚠️ Nu pot verifica serverul";
+
+}
+
+}
+
+setInterval(checkServer,5000);
+
+</script>
+
 </head>
-<body>
+
+<body onload="checkServer()">
 
 <header>
-<h1>My Modded Minecraft Server</h1>
-<p>Join our server with custom mods!</p>
+
+<h1>My Minecraft Server</h1>
+<p>Join our modded adventure!</p>
+
 </header>
 
 <div class="container">
 
 <div class="card">
+
 <h2>Server IP</h2>
-<p>play.myserver.net</p>
+
+<div class="ip">
+play.myserver.net
 </div>
 
+<button onclick="copyIP()">
+Copy IP
+</button>
+
+<div id="status" class="status">
+Checking server...
+</div>
+
+<div id="players" class="players"></div>
+
+</div>
+
+
 <div class="card">
+
 <h2>Download Modpack</h2>
-<p>Download the modpack to join the server.</p>
-<a href="modpack.zip" download>
-<button>Download Modpack</button>
+
+<a href="modpack.zip">
+<button>
+Download Modpack
+</button>
 </a>
+
 </div>
 
+
 <div class="card">
+
 <h2>Mods Included</h2>
-<ul style="list-style:none;padding:0">
-<li>Create</li>
-<li>JEI (Just Enough Items)</li>
-<li>Waystones</li>
-<li>Farmer's Delight</li>
-</ul>
+
+<p>
+Create<br>
+JEI<br>
+Waystones<br>
+Farmer's Delight
+</p>
+
 </div>
+
 
 <div class="card">
+
 <h2>How to Install</h2>
-<p>1. Download the modpack.<br>
-2. Extract it into your Minecraft mods folder.<br>
-3. Launch Minecraft with Forge.<br>
-4. Join the server!</p>
+
+<p>
+1. Download modpack<br>
+2. Extract mods in .minecraft/mods<br>
+3. Start Minecraft Forge<br>
+4. Join server
+</p>
+
 </div>
 
+</div>
+
+<div class="footer">
+Minecraft Server Website
 </div>
 
 </body>
